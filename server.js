@@ -33,6 +33,10 @@ app.post("/highlight", upload.array("videos"), async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 })
+app.get("/", (req, res) => {
+  res.send("Backend OK");
+});
+
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log("API rodando na porta " + PORT))
