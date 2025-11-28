@@ -26,4 +26,4 @@ jobs:
         run: |
           node server.js &
           sleep 5
-          curl --fail http://localhost:3000/health || (echo "Health check FAILED" && exit 1)
+          curl --fail http://localhost:3000/ || (echo "Health check FAILED" && exit 1)
