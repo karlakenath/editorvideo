@@ -2,7 +2,10 @@ import express from "express"
 import cors from "cors"
 import multer from "multer"
 import ffmpeg from "fluent-ffmpeg"
+import ffmpegPath from "ffmpeg-static"
 import fs from "fs"
+
+ffmpeg.setFfmpegPath(ffmpegPath)
 
 const app = express()
 app.use(cors())
