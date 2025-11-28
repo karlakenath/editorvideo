@@ -10,6 +10,12 @@ app.use(express.json())
 
 const upload = multer({ dest: "uploads/" })
 
+// ROTA DE TESTE / HEALTH
+app.get("/", (req, res) => {
+  res.send("Backend OK")
+})
+
+// ROTA DE HIGHLIGHT
 app.post("/highlight", upload.array("videos"), async (req, res) => {
   try {
     const files = req.files
@@ -27,17 +33,17 @@ app.post("/highlight", upload.array("videos"), async (req, res) => {
           fs.unlinkSync(output)
         })
       })
-      .on("error", err => res.status(500).json({ error: err.message }))
+
+      .on("error", err => {
+        console.error("FFmpeg error:", err)
+        res.status(500).json({ error: err.message })
+      })
+
       .mergeToFile(output)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
 })
-app.get("/", (req, res) => {
-  res.send("Backend OK");
-});
-
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log("API rodando na porta " + PORT))
-
