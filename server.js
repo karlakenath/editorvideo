@@ -34,4 +34,8 @@ app.post("/highlight", upload.array("videos"), async (req, res) => {
   }
 })
 
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" })
+})
+
 app.listen(3000, () => console.log("API rodando na porta 3000"))
