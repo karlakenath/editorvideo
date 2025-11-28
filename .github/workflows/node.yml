@@ -1,0 +1,37 @@
+name: CI - Node.js (build & smoke test)
+
+# Roda quando houver push ou PR na branch principal (ajuste o nome da sua branch se necessário)
+on:
+  push:
+    branches: [ "principal" ]
+  pull_request:
+    branches: [ "principal" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (optional)
+        run: |
+          if [ -f package.json ]; then
+            npm run lint || true
+          fi
+
+      - name: Start server (smoke test)
+        run: |
+          # Inicia o servidor em background para checar se ele sobe
+          node servidor.js & 
+          sleep 6
+          # Checa se a rota health responde (ajuste porta se necessário)
+          curl --fail http://localhost:3000/ || (echo "Health check failed" && exit 1)
