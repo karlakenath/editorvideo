@@ -22,5 +22,8 @@ jobs:
       - name: Instalando dependências
         run: npm install
 
-      - name: Testando build
-        run: node servidor.js
+      - name: Testando inicialização do servidor
+        run: |
+          node server.js & 
+          sleep 5
+          curl --fail http://localhost:3000/ || (echo "Health check FAILED" && exit 1)
